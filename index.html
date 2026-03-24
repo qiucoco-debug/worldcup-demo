@@ -373,7 +373,7 @@
             color: #333;
         }
 
-        /* 你可能关注的比赛 - Tab */
+        /* 我可能关注的比赛 - Tab */
         .tab-bar {
             display: flex;
             border-bottom: 1px solid #f0f0f0;
@@ -748,10 +748,32 @@
             </div>
         </div>
 
+        <!-- 你错过的主队热搜 -->
+        <div class="data-section">
+            <div class="section-title">🤫 主队这些瓜你没吃到</div>
+            <ul class="missed-list">
+                <li class="missed-item">
+                    <div class="missed-rank">1</div>
+                    <div class="missed-query">葡萄牙世界杯大名单公布 C罗领衔</div>
+                    <div class="missed-heat">🔥 2.3万</div>
+                </li>
+                <li class="missed-item">
+                    <div class="missed-rank">2</div>
+                    <div class="missed-query">C罗赛前发布会上说"这是我最后一届世界杯"</div>
+                    <div class="missed-heat">🔥 1.8万</div>
+                </li>
+                <li class="missed-item">
+                    <div class="missed-rank">3</div>
+                    <div class="missed-query">B费世界杯首球 葡萄牙2-0乌拉圭</div>
+                    <div class="missed-heat">🔥 1.5万</div>
+                </li>
+            </ul>
+        </div>
+
         <!-- 最常搜的球员 -->
         <div class="data-section">
             <div class="section-title">⭐ 你最常搜的球员</div>
-            <div class="section-summary">今年可能是他的最后一战，所以你格外关注❤️</div>
+            <div class="section-summary">今年可能是他最后一战了，所以你格外关注</div>
             <ul class="player-list">
                 <li class="player-item">
                     <div class="player-rank top1">1</div>
@@ -946,28 +968,6 @@
             </ul>
         </div>
 
-        <!-- 你错过的主队热搜 -->
-        <div class="data-section">
-            <div class="section-title">🤫 主队这些瓜你没吃到</div>
-            <ul class="missed-list">
-                <li class="missed-item">
-                    <div class="missed-rank">1</div>
-                    <div class="missed-query">葡萄牙世界杯大名单公布 C罗领衔</div>
-                    <div class="missed-heat">🔥 2.3万</div>
-                </li>
-                <li class="missed-item">
-                    <div class="missed-rank">2</div>
-                    <div class="missed-query">C罗赛前发布会上说"这是我最后一届世界杯"</div>
-                    <div class="missed-heat">🔥 1.8万</div>
-                </li>
-                <li class="missed-item">
-                    <div class="missed-rank">3</div>
-                    <div class="missed-query">B费世界杯首球 葡萄牙2-0乌拉圭</div>
-                    <div class="missed-heat">🔥 1.5万</div>
-                </li>
-            </ul>
-        </div>
-
         <!-- 我可能关注的比赛 -->
         <div class="data-section">
             <div class="section-title">🔥 你可能关注的比赛</div>
@@ -1047,7 +1047,7 @@
 
         <!-- 好友热搜词云 -->
         <div class="data-section">
-            <div class="section-title">🔥 你的好友都在搜</div>
+            <div class="section-title">🔥 好友都在搜</div>
             <div class="word-cloud-container">
                 <div class="word-cloud-inner">
                     <!-- 大词 - 前景层 -->
@@ -1102,7 +1102,7 @@
         // 分享按钮
         document.querySelector('.share-btn').addEventListener('click', (e) => {
             e.preventDefault();
-            alert('已生成你的观赛分身海报，可分享给好友～');
+            alert('已生成你的观赛分身海报，一键分享');
         });
     </script>
 </body>
