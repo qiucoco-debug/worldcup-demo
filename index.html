@@ -1,0 +1,916 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>我的观赛分身·世界杯 | 抖音搜索</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Helvetica Neue", sans-serif;
+        }
+
+        body {
+            background-color: #f5f5f5;
+            padding: 16px;
+            max-width: 420px;
+            margin: 0 auto;
+        }
+
+        /* 页面容器 */
+        .container {
+            background-color: #fff;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+        }
+
+        /* 标题栏 */
+        .page-title {
+            text-align: center;
+            padding: 20px 0;
+            font-size: 20px;
+            font-weight: 600;
+            background: linear-gradient(120deg, #165DFF, #00C6FF);
+            color: #fff;
+            letter-spacing: 1px;
+        }
+
+        /* 核心视觉区 - 人格卡片 */
+        .persona-card {
+            padding: 24px 20px;
+            position: relative;
+            background: linear-gradient(180deg, #f8f9ff 0%, #fff 100%);
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        /* 左侧：小人形象 */
+        .persona-left {
+            flex-shrink: 0;
+        }
+
+        /* 小人形象容器 */
+        .avatar-container {
+            width: 140px;
+            height: 140px;
+            margin: 0 auto;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* 呆萌Q弹小男孩 - SVG */
+        .avatar {
+            width: 110px;
+            height: 110px;
+        }
+
+        /* 飘浮元素 */
+        .float-element {
+            position: absolute;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background-color: rgba(255,255,255,0.9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .float-element:nth-child(2) {
+            top: 0;
+            right: 5px;
+            animation-delay: 0s;
+        }
+
+        .float-element:nth-child(3) {
+            bottom: 15px;
+            left: 0;
+            animation-delay: 1s;
+        }
+
+        .float-element:nth-child(4) {
+            top: 25px;
+            left: -5px;
+            animation-delay: 2s;
+        }
+
+        .float-element:nth-child(5) {
+            top: 10px;
+            right: -8px;
+            animation-delay: 0.5s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-6px); }
+        }
+
+        /* 人格标签 */
+        .persona-right {
+            flex: 1;
+            text-align: left;
+        }
+
+        .persona-tag {
+            font-size: 22px;
+            font-weight: 700;
+            color: #165DFF;
+            margin-bottom: 8px;
+        }
+
+        .persona-desc {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 12px;
+            line-height: 1.6;
+        }
+
+        .team-info {
+            font-size: 15px;
+            color: #333;
+            font-weight: 500;
+        }
+
+        .persona-insight {
+            font-size: 13px;
+            color: #999;
+            margin-top: 10px;
+            padding: 8px 10px;
+            background: rgba(22, 93, 255, 0.06);
+            border-radius: 8px;
+            line-height: 1.6;
+        }
+
+        /* 数据板块通用样式 */
+        .data-section {
+            padding: 20px;
+            border-top: 1px solid #f0f0f0;
+        }
+
+        .section-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* 主队数据 */
+        .team-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .team-name {
+            width: 80px;
+            font-size: 14px;
+            color: #333;
+        }
+
+        .progress-bar {
+            flex: 1;
+            height: 12px;
+            background-color: #f0f0f0;
+            border-radius: 6px;
+            overflow: hidden;
+            margin: 0 10px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #165DFF, #00C6FF);
+            border-radius: 6px;
+        }
+
+        .search-count {
+            font-size: 14px;
+            color: #999;
+            width: 60px;
+            text-align: right;
+        }
+
+        /* 球员数据 */
+        .player-list {
+            list-style: none;
+        }
+
+        .player-item {
+            display: flex;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid #f8f8f8;
+        }
+
+        .player-item:last-child {
+            border-bottom: none;
+        }
+
+        .player-rank {
+            width: 24px;
+            font-size: 14px;
+            color: #999;
+            text-align: center;
+        }
+
+        .player-rank.top1 {
+            color: #FF6B35;
+            font-weight: 700;
+        }
+
+        .player-name {
+            flex: 1;
+            font-size: 15px;
+            color: #333;
+            margin: 0 10px;
+        }
+
+        .player-count {
+            font-size: 14px;
+            color: #999;
+            margin-right: 8px;
+        }
+
+        .player-badge {
+            font-size: 14px;
+        }
+
+        /* 活跃时段 - 柱状图 */
+        .time-chart-container {
+            width: 100%;
+            margin-bottom: 12px;
+        }
+
+        .bar-chart {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            height: 100px;
+            padding: 0 4px;
+            gap: 6px;
+        }
+
+        .bar-item {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .bar-wrapper {
+            width: 100%;
+            height: 80px;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+        }
+
+        .bar {
+            width: 100%;
+            max-width: 36px;
+            border-radius: 4px 4px 0 0;
+            background: #e8edf5;
+            transition: all 0.3s ease;
+            min-height: 4px;
+        }
+
+        .bar.active {
+            background: linear-gradient(180deg, #165DFF, #4D8FFF);
+            box-shadow: 0 2px 8px rgba(22, 93, 255, 0.3);
+        }
+
+        .bar-label {
+            font-size: 11px;
+            color: #999;
+            text-align: center;
+        }
+
+        .time-desc {
+            font-size: 14px;
+            color: #666;
+            text-align: center;
+            font-weight: 500;
+            margin-top: 4px;
+        }
+
+        /* 情绪曲线 */
+        .emotion-chart-container {
+            width: 100%;
+            margin-bottom: 8px;
+            position: relative;
+        }
+
+        .emotion-chart {
+            width: 100%;
+            height: 140px;
+            position: relative;
+        }
+
+        .emotion-chart svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .emotion-desc {
+            font-size: 13px;
+            color: #888;
+            line-height: 1.8;
+            margin-top: 8px;
+            padding: 10px 12px;
+            background: #f8f9ff;
+            border-radius: 8px;
+        }
+
+        .emotion-desc-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 6px;
+            margin-bottom: 4px;
+        }
+
+        .emotion-desc-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .emotion-face {
+            flex-shrink: 0;
+            width: 28px;
+            height: 28px;
+        }
+
+        .emotion-text {
+            font-size: 13px;
+            color: #555;
+            line-height: 1.6;
+        }
+
+        .emotion-text strong {
+            color: #333;
+        }
+
+        /* 沉浸时刻 */
+        .immersion-list {
+            list-style: none;
+        }
+
+        .immersion-item {
+            display: flex;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #f8f8f8;
+        }
+
+        .immersion-item:last-child {
+            border-bottom: none;
+        }
+
+        .immersion-rank {
+            width: 24px;
+            font-size: 14px;
+            color: #999;
+            text-align: center;
+            flex-shrink: 0;
+        }
+
+        .immersion-rank.top1 { color: #FF6B35; font-weight: 700; }
+        .immersion-rank.top2 { color: #FF9F43; font-weight: 700; }
+        .immersion-rank.top3 { color: #FECA57; font-weight: 700; }
+
+        .immersion-query {
+            flex: 1;
+            font-size: 14px;
+            color: #333;
+            margin: 0 10px;
+            line-height: 1.4;
+        }
+
+        .immersion-duration {
+            font-size: 13px;
+            color: #165DFF;
+            background: #f0f5ff;
+            padding: 3px 10px;
+            border-radius: 12px;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+
+        /* 错过的主队热搜 */
+        .missed-list {
+            list-style: none;
+        }
+
+        .missed-item {
+            display: flex;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #f8f8f8;
+        }
+
+        .missed-item:last-child {
+            border-bottom: none;
+        }
+
+        .missed-rank {
+            width: 24px;
+            font-size: 14px;
+            color: #999;
+            text-align: center;
+            flex-shrink: 0;
+        }
+
+        .missed-query {
+            flex: 1;
+            font-size: 14px;
+            color: #333;
+            margin: 0 10px;
+            line-height: 1.4;
+        }
+
+        .missed-heat {
+            font-size: 12px;
+            color: #FF6B35;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+
+        /* 好友板块 - 纯词云 */
+        .word-cloud-container {
+            position: relative;
+            width: 100%;
+            height: 260px;
+            overflow: hidden;
+        }
+
+        .word-cloud-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+
+        .wc-word {
+            position: absolute;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+            white-space: nowrap;
+            line-height: 1.3;
+            font-weight: 500;
+        }
+
+        .wc-word:hover {
+            transform: scale(1.15);
+            z-index: 10 !important;
+        }
+
+        /* 词云颜色方案 */
+        .wc-word.c1 { color: #165DFF; }
+        .wc-word.c2 { color: #00C6FF; }
+        .wc-word.c3 { color: #7B61FF; }
+        .wc-word.c4 { color: #FF6B35; }
+        .wc-word.c5 { color: #00B878; }
+        .wc-word.c6 { color: #165DFF; opacity: 0.5; }
+        .wc-word.c7 { color: #00C6FF; opacity: 0.5; }
+        .wc-word.c8 { color: #7B61FF; opacity: 0.4; }
+        .wc-word.c9 { color: #FF6B35; opacity: 0.4; }
+        .wc-word.c10 { color: #00B878; opacity: 0.35; }
+
+        /* 分享区域 - 简化 */
+        .share-section {
+            padding: 20px;
+            border-top: 1px solid #f0f0f0;
+            text-align: center;
+        }
+
+        .share-btn {
+            display: inline-block;
+            width: 80%;
+            height: 48px;
+            line-height: 48px;
+            background: linear-gradient(90deg, #165DFF, #00C6FF);
+            color: #fff;
+            border-radius: 24px;
+            text-align: center;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 4px 16px rgba(22, 93, 255, 0.35);
+            transition: transform 0.2s, box-shadow 0.2s;
+            text-decoration: none;
+        }
+
+        .share-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 20px rgba(22, 93, 255, 0.45);
+        }
+
+        .share-btn:active {
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 页面标题 -->
+        <div class="page-title">🏆 我的观赛分身·世界杯</div>
+
+        <!-- 核心视觉区 -->
+        <div class="persona-card">
+            <div class="persona-left">
+                <div class="avatar-container">
+                    <!-- 呆萌Q弹小男孩：身穿葡萄牙红绿配色球衣 -->
+                    <svg class="avatar" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                        <!-- 身体阴影 -->
+                        <ellipse cx="100" cy="190" rx="35" ry="5" fill="#e0e0e0" opacity="0.4"/>
+                        
+                        <!-- 身体/球衣 - 葡萄牙红绿配色 -->
+                        <rect x="65" y="115" width="70" height="65" rx="16" fill="#E41E2B"/>
+                        <!-- 球衣绿色装饰条 -->
+                        <rect x="65" y="128" width="70" height="10" rx="2" fill="#2E7D32" opacity="0.85"/>
+                        <rect x="65" y="152" width="70" height="10" rx="2" fill="#2E7D32" opacity="0.85"/>
+                        <!-- 球衣号码 -->
+                        <text x="100" y="148" text-anchor="middle" font-size="18" font-weight="bold" fill="#fff" font-family="Arial, sans-serif">10</text>
+                        
+                        <!-- 胳膊 -->
+                        <rect x="48" y="118" width="20" height="40" rx="10" fill="#E41E2B"/>
+                        <rect x="132" y="118" width="20" height="40" rx="10" fill="#E41E2B"/>
+                        <!-- 手 -->
+                        <circle cx="58" cy="162" r="9" fill="#FDDCB5"/>
+                        <circle cx="142" cy="162" r="9" fill="#FDDCB5"/>
+                        
+                        <!-- 头部 -->
+                        <circle cx="100" cy="82" r="38" fill="#FDDCB5"/>
+                        
+                        <!-- 头发 -->
+                        <ellipse cx="100" cy="58" rx="36" ry="22" fill="#4A3728"/>
+                        <rect x="64" y="52" width="72" height="16" rx="8" fill="#4A3728"/>
+                        
+                        <!-- 眼睛 -->
+                        <ellipse cx="86" cy="84" rx="6" ry="7" fill="#333"/>
+                        <ellipse cx="114" cy="84" rx="6" ry="7" fill="#333"/>
+                        <!-- 眼睛高光 -->
+                        <circle cx="88" cy="82" r="2.5" fill="#fff"/>
+                        <circle cx="116" cy="82" r="2.5" fill="#fff"/>
+                        
+                        <!-- 腮红 -->
+                        <ellipse cx="74" cy="94" rx="8" ry="5" fill="#FFB6C1" opacity="0.5"/>
+                        <ellipse cx="126" cy="94" rx="8" ry="5" fill="#FFB6C1" opacity="0.5"/>
+                        
+                        <!-- 嘴巴 - 微笑 -->
+                        <path d="M 90 100 Q 100 112 110 100" stroke="#c47a5a" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+                        
+                        <!-- 腿 -->
+                        <rect x="74" y="174" width="18" height="14" rx="8" fill="#FDDCB5"/>
+                        <rect x="108" y="174" width="18" height="14" rx="8" fill="#FDDCB5"/>
+                        <!-- 鞋子 -->
+                        <rect x="70" y="182" width="26" height="12" rx="6" fill="#333"/>
+                        <rect x="104" y="182" width="26" height="12" rx="6" fill="#333"/>
+                        
+                        <!-- 战术板（战术分析师道具） -->
+                        <rect x="36" y="140" width="30" height="22" rx="3" fill="#fff" stroke="#ccc" stroke-width="1.5"/>
+                        <line x1="42" y1="148" x2="52" y2="155" stroke="#165DFF" stroke-width="1.5"/>
+                        <circle cx="48" cy="145" r="3" fill="#165DFF"/>
+                        <circle cx="44" cy="155" r="3" fill="#E41E2B"/>
+                        <circle cx="56" cy="150" r="3" fill="#E41E2B"/>
+                    </svg>
+                    
+                    <div class="float-element">📊</div>
+                    <div class="float-element">⚽</div>
+                    <div class="float-element">📈</div>
+                    <div class="float-element">🧠</div>
+                </div>
+            </div>
+            <div class="persona-right">
+                <div class="persona-tag">战术分析师</div>
+                <div class="persona-desc">查资料比看球认真的那种球迷</div>
+                <div class="team-info">你主队是葡萄牙 🇵🇹</div>
+                <div class="persona-insight">📊 世界杯期间你搜了 <strong>28次</strong> 阵容战术相关内容，比 93% 的球迷更关注比赛本身。别人看热闹，你看门道。</div>
+            </div>
+        </div>
+
+        <!-- 我的主队数据 -->
+        <div class="data-section">
+            <div class="section-title">📊 我的主队</div>
+            <div class="team-item">
+                <div class="team-name">🇵🇹 葡萄牙</div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 80%;"></div>
+                </div>
+                <div class="search-count">47次</div>
+            </div>
+            <div class="team-item">
+                <div class="team-name">🇧🇷 巴西</div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 40%;"></div>
+                </div>
+                <div class="search-count">19次</div>
+            </div>
+            <div class="team-item">
+                <div class="team-name">🇫🇷 法国</div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 30%;"></div>
+                </div>
+                <div class="search-count">15次</div>
+            </div>
+        </div>
+
+        <!-- 最常搜的球员 -->
+        <div class="data-section">
+            <div class="section-title">⭐ 我最常搜的球员</div>
+            <ul class="player-list">
+                <li class="player-item">
+                    <div class="player-rank top1">1</div>
+                    <div class="player-name">C罗</div>
+                    <div class="player-count">23次</div>
+                    <div class="player-badge">👑</div>
+                </li>
+                <li class="player-item">
+                    <div class="player-rank">2</div>
+                    <div class="player-name">内马尔</div>
+                    <div class="player-count">18次</div>
+                </li>
+                <li class="player-item">
+                    <div class="player-rank">3</div>
+                    <div class="player-name">姆巴佩</div>
+                    <div class="player-count">15次</div>
+                </li>
+                <li class="player-item">
+                    <div class="player-rank">4</div>
+                    <div class="player-name">B费</div>
+                    <div class="player-count">9次</div>
+                </li>
+                <li class="player-item">
+                    <div class="player-rank">5</div>
+                    <div class="player-name">莱奥</div>
+                    <div class="player-count">7次</div>
+                </li>
+            </ul>
+        </div>
+
+        <!-- 搜索活跃时段 - 柱状图 -->
+        <div class="data-section">
+            <div class="section-title">🕐 我的搜索活跃时段</div>
+            <div class="time-chart-container">
+                <div class="bar-chart">
+                    <!-- 0:00-3:00 -->
+                    <div class="bar-item">
+                        <div class="bar-wrapper">
+                            <div class="bar" style="height: 70%;" data-level="high"></div>
+                        </div>
+                        <div class="bar-label">0-3时</div>
+                    </div>
+                    <!-- 3:00-6:00 -->
+                    <div class="bar-item">
+                        <div class="bar-wrapper">
+                            <div class="bar" style="height: 45%;" data-level="mid"></div>
+                        </div>
+                        <div class="bar-label">3-6时</div>
+                    </div>
+                    <!-- 6:00-9:00 -->
+                    <div class="bar-item">
+                        <div class="bar-wrapper">
+                            <div class="bar" style="height: 12%;" data-level="low"></div>
+                        </div>
+                        <div class="bar-label">6-9时</div>
+                    </div>
+                    <!-- 9:00-12:00 -->
+                    <div class="bar-item">
+                        <div class="bar-wrapper">
+                            <div class="bar" style="height: 25%;" data-level="low"></div>
+                        </div>
+                        <div class="bar-label">9-12时</div>
+                    </div>
+                    <!-- 12:00-15:00 -->
+                    <div class="bar-item">
+                        <div class="bar-wrapper">
+                            <div class="bar" style="height: 35%;" data-level="low"></div>
+                        </div>
+                        <div class="bar-label">12-15时</div>
+                    </div>
+                    <!-- 15:00-18:00 -->
+                    <div class="bar-item">
+                        <div class="bar-wrapper">
+                            <div class="bar" style="height: 20%;" data-level="low"></div>
+                        </div>
+                        <div class="bar-label">15-18时</div>
+                    </div>
+                    <!-- 18:00-21:00 -->
+                    <div class="bar-item">
+                        <div class="bar-wrapper">
+                            <div class="bar" style="height: 55%;" data-level="mid"></div>
+                        </div>
+                        <div class="bar-label">18-21时</div>
+                    </div>
+                    <!-- 21:00-24:00 -->
+                    <div class="bar-item">
+                        <div class="bar-wrapper">
+                            <div class="bar" style="height: 85%;" data-level="high"></div>
+                        </div>
+                        <div class="bar-label">21-24时</div>
+                    </div>
+                </div>
+            </div>
+            <div class="time-desc">"凌晨3点还在搜进球集锦"</div>
+        </div>
+
+        <!-- 观赛情绪曲线 -->
+        <div class="data-section">
+            <div class="section-title">📈 我的观赛情绪曲线</div>
+            <div class="emotion-chart-container">
+                <div class="emotion-chart">
+                    <svg viewBox="0 0 340 140" xmlns="http://www.w3.org/2000/svg">
+                        <!-- 网格线 -->
+                        <line x1="30" y1="10" x2="330" y2="10" stroke="#f0f0f0" stroke-width="0.5"/>
+                        <line x1="30" y1="45" x2="330" y2="45" stroke="#f0f0f0" stroke-width="0.5"/>
+                        <line x1="30" y1="80" x2="330" y2="80" stroke="#f0f0f0" stroke-width="0.5"/>
+                        <line x1="30" y1="115" x2="330" y2="115" stroke="#e0e0e0" stroke-width="1"/>
+
+                        <!-- 折线 - 情绪（搜索量） -->
+                        <polyline
+                            points="30,95 65,100 100,80 135,105 170,85 205,55 240,40 275,20 310,30 330,35"
+                            fill="none"
+                            stroke="url(#emotionGrad)"
+                            stroke-width="2.5"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                        />
+
+                        <!-- 面积填充 -->
+                        <polygon
+                            points="30,95 65,100 100,80 135,105 170,85 205,55 240,40 275,20 310,30 330,35 330,115 30,115"
+                            fill="url(#emotionAreaGrad)"
+                            opacity="0.3"
+                        />
+
+                        <!-- 激动点 - 阿根廷输沙特 -->
+                        <circle cx="135" cy="105" r="5" fill="#FF6B6B" stroke="#fff" stroke-width="2"/>
+                        <text x="135" y="100" font-size="14" text-anchor="middle" dominant-baseline="middle">😭</text>
+
+                        <!-- 激动点 - C罗帽子戏法 -->
+                        <circle cx="275" cy="20" r="5" fill="#FF6B35" stroke="#fff" stroke-width="2"/>
+                        <text x="275" y="8" font-size="14" text-anchor="middle" dominant-baseline="middle">😍</text>
+
+                        <!-- 激动点 - 淘汰赛葡萄牙出局 -->
+                        <circle cx="240" cy="40" r="4" fill="#FF6B6B" stroke="#fff" stroke-width="1.5"/>
+
+                        <!-- X轴标签 -->
+                        <text x="30" y="130" font-size="8" fill="#bbb" text-anchor="middle">11/20</text>
+                        <text x="100" y="130" font-size="8" fill="#bbb" text-anchor="middle">11/24</text>
+                        <text x="170" y="130" font-size="8" fill="#bbb" text-anchor="middle">11/28</text>
+                        <text x="240" y="130" font-size="8" fill="#bbb" text-anchor="middle">12/2</text>
+                        <text x="310" y="130" font-size="8" fill="#bbb" text-anchor="middle">12/6</text>
+
+                        <!-- 渐变定义 -->
+                        <defs>
+                            <linearGradient id="emotionGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                                <stop offset="0%" style="stop-color:#165DFF;stop-opacity:0.6"/>
+                                <stop offset="50%" style="stop-color:#FF6B6B;stop-opacity:1"/>
+                                <stop offset="100%" style="stop-color:#FF6B35;stop-opacity:1"/>
+                            </linearGradient>
+                            <linearGradient id="emotionAreaGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                                <stop offset="0%" style="stop-color:#165DFF;stop-opacity:0.4"/>
+                                <stop offset="100%" style="stop-color:#165DFF;stop-opacity:0"/>
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                </div>
+                <!-- 情绪事件标注 -->
+                <div class="emotion-desc">
+                    <div class="emotion-desc-item">
+                        <span style="font-size: 20px; flex-shrink: 0; line-height: 1.6;">😭</span>
+                        <span class="emotion-text"><strong>11月26日</strong> 你搜了5次，那天阿根廷爆冷输给沙特…你一定很难受</span>
+                    </div>
+                    <div class="emotion-desc-item">
+                        <span style="font-size: 20px; flex-shrink: 0; line-height: 1.6;">😍</span>
+                        <span class="emotion-text"><strong>12月6日</strong> 搜索峰值！你疯狂搜了12次，C罗帽子戏法那晚吧</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 你的沉浸时刻 -->
+        <div class="data-section">
+            <div class="section-title">🎬 你的沉浸时刻</div>
+            <ul class="immersion-list">
+                <li class="immersion-item">
+                    <div class="immersion-rank top1">1</div>
+                    <div class="immersion-query">C罗2022世界杯帽子戏法全场回放</div>
+                    <div class="immersion-duration">42分钟</div>
+                </li>
+                <li class="immersion-item">
+                    <div class="immersion-rank top2">2</div>
+                    <div class="immersion-query">阿根廷vs法国决赛完整录像</div>
+                    <div class="immersion-duration">38分钟</div>
+                </li>
+                <li class="immersion-item">
+                    <div class="immersion-rank top3">3</div>
+                    <div class="immersion-query">世界杯十大经典进球TOP10</div>
+                    <div class="immersion-duration">35分钟</div>
+                </li>
+                <li class="immersion-item">
+                    <div class="immersion-rank">4</div>
+                    <div class="immersion-query">梅西职业生涯纪录片完整版</div>
+                    <div class="immersion-duration">31分钟</div>
+                </li>
+                <li class="immersion-item">
+                    <div class="immersion-rank">5</div>
+                    <div class="immersion-query">葡萄牙vs瑞士淘汰赛战术分析</div>
+                    <div class="immersion-duration">28分钟</div>
+                </li>
+            </ul>
+        </div>
+
+        <!-- 你错过的主队热搜 -->
+        <div class="data-section">
+            <div class="section-title">🤫 这些主队大事你错过了</div>
+            <ul class="missed-list">
+                <li class="missed-item">
+                    <div class="missed-rank">1</div>
+                    <div class="missed-query">葡萄牙世界杯大名单公布 C罗领衔</div>
+                    <div class="missed-heat">🔥 2.3万</div>
+                </li>
+                <li class="missed-item">
+                    <div class="missed-rank">2</div>
+                    <div class="missed-query">C罗赛前发布会上说"这是我最后一届世界杯"</div>
+                    <div class="missed-heat">🔥 1.8万</div>
+                </li>
+                <li class="missed-item">
+                    <div class="missed-rank">3</div>
+                    <div class="missed-query">B费世界杯首球 葡萄牙2-0乌拉圭</div>
+                    <div class="missed-heat">🔥 1.5万</div>
+                </li>
+                <li class="missed-item">
+                    <div class="missed-rank">4</div>
+                    <div class="missed-query">葡萄牙6-1瑞士 C罗替补席庆祝</div>
+                    <div class="missed-heat">🔥 1.2万</div>
+                </li>
+                <li class="missed-item">
+                    <div class="missed-rank">5</div>
+                    <div class="missed-query">桑托斯回应C罗替补争议</div>
+                    <div class="missed-heat">🔥 0.9万</div>
+                </li>
+            </ul>
+        </div>
+
+        <!-- 好友热搜词云 -->
+        <div class="data-section">
+            <div class="section-title">🔥 好友热搜词云</div>
+            <div class="word-cloud-container">
+                <div class="word-cloud-inner">
+                    <!-- 大词 - 前景层 -->
+                    <span class="wc-word c1" style="font-size: 22px; font-weight: 700; left: 3%; top: 5%; z-index: 3;">切尔西保姆张姐</span>
+                    <span class="wc-word c2" style="font-size: 20px; font-weight: 700; left: 48%; top: 3%; z-index: 2;">皇马3-0曼城</span>
+                    <span class="wc-word c4" style="font-size: 21px; font-weight: 700; left: 5%; top: 32%; z-index: 3;">曼城0-3皇马回放</span>
+                    <span class="wc-word c3" style="font-size: 18px; font-weight: 600; left: 55%; top: 30%; z-index: 2;">曼城五连败更衣室</span>
+                    <span class="wc-word c5" style="font-size: 19px; font-weight: 700; left: 3%; top: 58%; z-index: 3;">内马尔转会大巴黎</span>
+                    <span class="wc-word c1" style="font-size: 17px; font-weight: 600; left: 45%; top: 58%; z-index: 2;">皇马签约库尔图瓦</span>
+                    <!-- 中词 - 中景层 -->
+                    <span class="wc-word c6" style="font-size: 15px; font-weight: 500; left: 32%; top: 16%; z-index: 1;">阿森纳1-1勒沃库森</span>
+                    <span class="wc-word c7" style="font-size: 14px; font-weight: 500; left: 68%; top: 52%; z-index: 1;">皇马关闭球场顶棚</span>
+                    <span class="wc-word c8" style="font-size: 15px; font-weight: 500; left: 10%; top: 80%; z-index: 1;">巴萨1-1纽卡斯尔</span>
+                    <span class="wc-word c5" style="font-size: 14px; font-weight: 500; left: 55%; top: 82%; z-index: 1;">皇马3 0曼城</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 分享区域 - 只保留按钮 -->
+        <div class="share-section">
+            <a href="#" class="share-btn">📤 分享我的观赛分身</a>
+        </div>
+    </div>
+
+    <script>
+        // 柱状图高亮：搜索量高的柱子添加 active 样式
+        document.querySelectorAll('.bar').forEach(bar => {
+            const level = bar.getAttribute('data-level');
+            if (level === 'high' || level === 'mid') {
+                bar.classList.add('active');
+            }
+        });
+
+        // 词云点击触发搜索
+        document.querySelectorAll('.wc-word').forEach(word => {
+            word.addEventListener('click', () => {
+                const keyword = word.textContent;
+                alert(`正在搜索：${keyword} | 世界杯`);
+            });
+        });
+
+        // 分享按钮
+        document.querySelector('.share-btn').addEventListener('click', (e) => {
+            e.preventDefault();
+            alert('已生成你的观赛分身海报，可分享给好友～');
+        });
+    </script>
+</body>
+</html>
