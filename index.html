@@ -40,11 +40,11 @@
 
         /* 核心视觉区 - 人格卡片 */
         .persona-card {
-            padding: 24px 20px;
+            padding: 28px 20px;
             position: relative;
             background: linear-gradient(180deg, #f8f9ff 0%, #fff 100%);
             display: flex;
-            align-items: center;
+            align-items: flex-start;
             gap: 16px;
         }
 
@@ -140,14 +140,36 @@
             font-weight: 500;
         }
 
-        .persona-insight {
+        .persona-insight-card {
+            margin-top: 12px;
+            background: linear-gradient(135deg, #EEF4FF 0%, #F5F8FF 100%);
+            border-radius: 12px;
+            padding: 12px 14px;
+            border: 1px solid rgba(22, 93, 255, 0.1);
+        }
+
+        .insight-row {
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+            margin-bottom: 8px;
             font-size: 13px;
-            color: #999;
-            margin-top: 10px;
-            padding: 8px 10px;
-            background: rgba(22, 93, 255, 0.06);
-            border-radius: 8px;
-            line-height: 1.6;
+            color: #555;
+            line-height: 1.5;
+        }
+
+        .insight-row:last-child {
+            margin-bottom: 0;
+        }
+
+        .insight-icon {
+            flex-shrink: 0;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .insight-row strong {
+            color: #165DFF;
         }
 
         /* 数据板块通用样式 */
@@ -199,6 +221,13 @@
             color: #999;
             width: 60px;
             text-align: right;
+        }
+
+        .team-note {
+            font-size: 12px;
+            color: #999;
+            margin-top: 8px;
+            text-align: center;
         }
 
         /* 球员数据 */
@@ -358,6 +387,97 @@
 
         .emotion-text strong {
             color: #333;
+        }
+
+        /* 热门对决 */
+        .hot-match-hero {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 14px 16px;
+            background: linear-gradient(135deg, #165DFF 0%, #4D8FFF 100%);
+            border-radius: 12px;
+            margin-bottom: 14px;
+            color: #fff;
+        }
+
+        .hot-match-hero-left {
+            flex: 1;
+        }
+
+        .hot-match-hero-label {
+            font-size: 11px;
+            opacity: 0.8;
+            margin-bottom: 4px;
+        }
+
+        .hot-match-hero-score {
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        .hot-match-hero-stage {
+            font-size: 12px;
+            opacity: 0.75;
+            margin-top: 2px;
+        }
+
+        .hot-match-hero-heat {
+            text-align: right;
+            flex-shrink: 0;
+            font-size: 13px;
+            opacity: 0.9;
+        }
+
+        .hot-match-hero-heat strong {
+            font-size: 18px;
+            display: block;
+            margin-bottom: 2px;
+        }
+
+        .hot-match-list {
+            list-style: none;
+        }
+
+        .hot-match-item {
+            display: flex;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #f8f8f8;
+        }
+
+        .hot-match-item:last-child {
+            border-bottom: none;
+        }
+
+        .hot-match-rank {
+            width: 24px;
+            font-size: 14px;
+            color: #999;
+            text-align: center;
+            flex-shrink: 0;
+        }
+
+        .hot-match-rank.top1 { color: #FF6B35; font-weight: 700; }
+        .hot-match-rank.top2 { color: #FF9F43; font-weight: 700; }
+        .hot-match-rank.top3 { color: #FECA57; font-weight: 700; }
+
+        .hot-match-info {
+            flex: 1;
+            margin: 0 10px;
+        }
+
+        .hot-match-name {
+            font-size: 14px;
+            color: #333;
+            line-height: 1.4;
+        }
+
+        .hot-match-heat {
+            font-size: 13px;
+            color: #FF6B35;
+            white-space: nowrap;
+            flex-shrink: 0;
         }
 
         /* 沉浸时刻 */
@@ -594,7 +714,24 @@
                 <div class="persona-tag">战术分析师</div>
                 <div class="persona-desc">查资料比看球认真的那种球迷</div>
                 <div class="team-info">你主队是葡萄牙 🇵🇹</div>
-                <div class="persona-insight">📊 世界杯期间你搜了 <strong>28次</strong> 阵容战术相关内容，比 93% 的球迷更关注比赛本身。别人看热闹，你看门道。</div>
+                <div class="persona-insight-card">
+                    <div class="insight-row">
+                        <span class="insight-icon">🔍</span>
+                        <span>你搜了 <strong>28次</strong> 阵容战术、<strong>15次</strong> 比赛回放、<strong>9次</strong> 历史战绩</span>
+                    </div>
+                    <div class="insight-row">
+                        <span class="insight-icon">📈</span>
+                        <span>你的战术类搜索占比 <strong>62%</strong>，远超平均 <strong>23%</strong></span>
+                    </div>
+                    <div class="insight-row">
+                        <span class="insight-icon">⚡</span>
+                        <span>85% 的比赛你都提前做过功课，最喜欢赛前研究双方近期表现</span>
+                    </div>
+                    <div class="insight-row">
+                        <span class="insight-icon">⏰</span>
+                        <span>你习惯在开赛前 <strong>2小时</strong> 开始密集搜索，是典型的研究型球迷</span>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -604,24 +741,11 @@
             <div class="team-item">
                 <div class="team-name">🇵🇹 葡萄牙</div>
                 <div class="progress-bar">
-                    <div class="progress-fill" style="width: 80%;"></div>
+                    <div class="progress-fill" style="width: 100%;"></div>
                 </div>
                 <div class="search-count">47次</div>
             </div>
-            <div class="team-item">
-                <div class="team-name">🇧🇷 巴西</div>
-                <div class="progress-bar">
-                    <div class="progress-fill" style="width: 40%;"></div>
-                </div>
-                <div class="search-count">19次</div>
-            </div>
-            <div class="team-item">
-                <div class="team-name">🇫🇷 法国</div>
-                <div class="progress-bar">
-                    <div class="progress-fill" style="width: 30%;"></div>
-                </div>
-                <div class="search-count">15次</div>
-            </div>
+            <div class="team-note">你 87% 的足球搜索都与葡萄牙相关</div>
         </div>
 
         <!-- 最常搜的球员 -->
@@ -796,6 +920,45 @@
                     </div>
                 </div>
             </div>
+        </div>
+
+        <!-- 热门对决 -->
+        <div class="data-section">
+            <div class="section-title">🔥 热门对决</div>
+            <div class="hot-match-hero">
+                <div class="hot-match-hero-left">
+                    <div class="hot-match-hero-label">🏟️ 我的主队最热比赛</div>
+                    <div class="hot-match-hero-score">葡萄牙 6-1 瑞士</div>
+                    <div class="hot-match-hero-stage">淘汰赛</div>
+                </div>
+                <div class="hot-match-hero-heat">
+                    <strong>🔥 8.2万</strong>
+                    全网搜索次数
+                </div>
+            </div>
+            <ul class="hot-match-list">
+                <li class="hot-match-item">
+                    <div class="hot-match-rank top1">1</div>
+                    <div class="hot-match-info">
+                        <div class="hot-match-name">阿根廷 vs 法国 决赛</div>
+                    </div>
+                    <div class="hot-match-heat">🔥 156万次</div>
+                </li>
+                <li class="hot-match-item">
+                    <div class="hot-match-rank top2">2</div>
+                    <div class="hot-match-info">
+                        <div class="hot-match-name">葡萄牙 6-1 瑞士</div>
+                    </div>
+                    <div class="hot-match-heat">🔥 82万次</div>
+                </li>
+                <li class="hot-match-item">
+                    <div class="hot-match-rank top3">3</div>
+                    <div class="hot-match-info">
+                        <div class="hot-match-name">日本 2-1 德国</div>
+                    </div>
+                    <div class="hot-match-heat">🔥 71万次</div>
+                </li>
+            </ul>
         </div>
 
         <!-- 你的沉浸时刻 -->
