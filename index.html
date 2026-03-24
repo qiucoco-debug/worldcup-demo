@@ -166,6 +166,18 @@
             gap: 8px;
         }
 
+        .section-summary {
+            font-size: 13px;
+            color: #888;
+            margin-top: -8px;
+            margin-bottom: 16px;
+            line-height: 1.6;
+        }
+
+        .section-summary strong {
+            color: #165DFF;
+        }
+
         /* 主队数据 */
         .team-item {
             display: flex;
@@ -358,6 +370,120 @@
 
         .emotion-text strong {
             color: #333;
+        }
+
+        /* 我可能关注的比赛 - Tab */
+        .tab-bar {
+            display: flex;
+            border-bottom: 1px solid #f0f0f0;
+            margin-bottom: 16px;
+        }
+
+        .tab-item {
+            flex: 1;
+            text-align: center;
+            padding: 10px 0;
+            font-size: 14px;
+            color: #999;
+            cursor: pointer;
+            position: relative;
+            transition: color 0.2s;
+        }
+
+        .tab-item.active {
+            color: #165DFF;
+            font-weight: 600;
+        }
+
+        .tab-item.active::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 32px;
+            height: 3px;
+            background: #165DFF;
+            border-radius: 2px;
+        }
+
+        .match-list {
+            list-style: none;
+        }
+
+        .match-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #f8f8f8;
+        }
+
+        .match-item:last-child {
+            border-bottom: none;
+        }
+
+        .match-rank {
+            width: 24px;
+            font-size: 14px;
+            color: #999;
+            text-align: center;
+            flex-shrink: 0;
+        }
+
+        .match-info {
+            flex: 1;
+            margin: 0 10px;
+        }
+
+        .match-name {
+            font-size: 14px;
+            color: #333;
+            font-weight: 500;
+        }
+
+        .match-time {
+            font-size: 12px;
+            color: #bbb;
+            margin-top: 2px;
+        }
+
+        .match-actions {
+            display: flex;
+            gap: 6px;
+            flex-shrink: 0;
+        }
+
+        .match-btn {
+            font-size: 12px;
+            padding: 4px 10px;
+            border-radius: 12px;
+            border: none;
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        .match-btn-live {
+            background: linear-gradient(90deg, #FF6B35, #FF9F43);
+            color: #fff;
+        }
+
+        .match-btn-replay {
+            background: #f0f5ff;
+            color: #165DFF;
+        }
+
+        .match-btn-book {
+            background: #fff;
+            color: #165DFF;
+            border: 1px solid #165DFF;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
         }
 
         /* 沉浸时刻 */
@@ -593,7 +719,6 @@
             <div class="persona-right">
                 <div class="persona-tag">战术分析师</div>
                 <div class="persona-desc">查资料比看球认真的那种球迷</div>
-                <div class="team-info">你主队是葡萄牙 🇵🇹</div>
                 <div class="persona-insight">📊 世界杯期间你搜了 <strong>28次</strong> 阵容战术相关内容，比 93% 的球迷更关注比赛本身。别人看热闹，你看门道。</div>
             </div>
         </div>
@@ -627,6 +752,7 @@
         <!-- 最常搜的球员 -->
         <div class="data-section">
             <div class="section-title">⭐ 我最常搜的球员</div>
+            <div class="section-summary">今年可能是他最后一战了，所以你格外关注</div>
             <ul class="player-list">
                 <li class="player-item">
                     <div class="player-rank top1">1</div>
@@ -660,6 +786,7 @@
         <!-- 搜索活跃时段 - 柱状图 -->
         <div class="data-section">
             <div class="section-title">🕐 我的搜索活跃时段</div>
+            <div class="section-summary">世界杯期间你共活跃了 <strong>47小时</strong>，最晚一次凌晨3点还在搜进球集锦 ⚽</div>
             <div class="time-chart-container">
                 <div class="bar-chart">
                     <!-- 0:00-3:00 -->
@@ -798,6 +925,83 @@
             </div>
         </div>
 
+        <!-- 我可能关注的比赛 -->
+        <div class="data-section">
+            <div class="section-title">🔥 我可能关注的比赛</div>
+            <div class="tab-bar">
+                <div class="tab-item active" data-tab="myteam">我的主队</div>
+                <div class="tab-item" data-tab="worldcup">世界杯</div>
+            </div>
+            <div class="tab-content active" id="tab-myteam">
+                <ul class="match-list">
+                    <li class="match-item">
+                        <div class="match-rank">1</div>
+                        <div class="match-info">
+                            <div class="match-name">🇵🇹 葡萄牙 vs 摩洛哥（八强赛）</div>
+                            <div class="match-time">6月15日 20:00</div>
+                        </div>
+                        <div class="match-actions">
+                            <button class="match-btn match-btn-book">预约</button>
+                        </div>
+                    </li>
+                    <li class="match-item">
+                        <div class="match-rank">2</div>
+                        <div class="match-info">
+                            <div class="match-name">🇵🇹 葡萄牙 vs 瑞士（八分之一决赛）</div>
+                            <div class="match-time">6月25日 03:00</div>
+                        </div>
+                        <div class="match-actions">
+                            <button class="match-btn match-btn-live">直播</button>
+                        </div>
+                    </li>
+                    <li class="match-item">
+                        <div class="match-rank">3</div>
+                        <div class="match-info">
+                            <div class="match-name">🇵🇹 葡萄牙 vs 乌拉圭（小组赛）</div>
+                            <div class="match-time">7月2日 21:00</div>
+                        </div>
+                        <div class="match-actions">
+                            <button class="match-btn match-btn-replay">回放</button>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="tab-content" id="tab-worldcup">
+                <ul class="match-list">
+                    <li class="match-item">
+                        <div class="match-rank">1</div>
+                        <div class="match-info">
+                            <div class="match-name">🇦🇷 阿根廷 vs 法国（决赛）</div>
+                            <div class="match-time">7月15日 23:00</div>
+                        </div>
+                        <div class="match-actions">
+                            <button class="match-btn match-btn-book">预约</button>
+                        </div>
+                    </li>
+                    <li class="match-item">
+                        <div class="match-rank">2</div>
+                        <div class="match-info">
+                            <div class="match-name">🇭🇷 克罗地亚 vs 摩洛哥（季军赛）</div>
+                            <div class="match-time">7月14日 23:00</div>
+                        </div>
+                        <div class="match-actions">
+                            <button class="match-btn match-btn-live">直播</button>
+                        </div>
+                    </li>
+                    <li class="match-item">
+                        <div class="match-rank">3</div>
+                        <div class="match-info">
+                            <div class="match-name">🇯🇵 日本 2-1 德国（小组赛）</div>
+                            <div class="match-time">6月20日 18:00</div>
+                        </div>
+                        <div class="match-actions">
+                            <button class="match-btn match-btn-replay">回放</button>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
         <!-- 你的沉浸时刻 -->
         <div class="data-section">
             <div class="section-title">🎬 你的沉浸时刻</div>
@@ -816,16 +1020,6 @@
                     <div class="immersion-rank top3">3</div>
                     <div class="immersion-query">世界杯十大经典进球TOP10</div>
                     <div class="immersion-duration">35分钟</div>
-                </li>
-                <li class="immersion-item">
-                    <div class="immersion-rank">4</div>
-                    <div class="immersion-query">梅西职业生涯纪录片完整版</div>
-                    <div class="immersion-duration">31分钟</div>
-                </li>
-                <li class="immersion-item">
-                    <div class="immersion-rank">5</div>
-                    <div class="immersion-query">葡萄牙vs瑞士淘汰赛战术分析</div>
-                    <div class="immersion-duration">28分钟</div>
                 </li>
             </ul>
         </div>
@@ -849,22 +1043,12 @@
                     <div class="missed-query">B费世界杯首球 葡萄牙2-0乌拉圭</div>
                     <div class="missed-heat">🔥 1.5万</div>
                 </li>
-                <li class="missed-item">
-                    <div class="missed-rank">4</div>
-                    <div class="missed-query">葡萄牙6-1瑞士 C罗替补席庆祝</div>
-                    <div class="missed-heat">🔥 1.2万</div>
-                </li>
-                <li class="missed-item">
-                    <div class="missed-rank">5</div>
-                    <div class="missed-query">桑托斯回应C罗替补争议</div>
-                    <div class="missed-heat">🔥 0.9万</div>
-                </li>
             </ul>
         </div>
 
         <!-- 好友热搜词云 -->
         <div class="data-section">
-            <div class="section-title">🔥 好友热搜词云</div>
+            <div class="section-title">🔥 我的好友都在搜</div>
             <div class="word-cloud-container">
                 <div class="word-cloud-inner">
                     <!-- 大词 - 前景层 -->
@@ -896,6 +1080,16 @@
             if (level === 'high' || level === 'mid') {
                 bar.classList.add('active');
             }
+        });
+
+        // Tab 切换
+        document.querySelectorAll('.tab-item').forEach(tab => {
+            tab.addEventListener('click', () => {
+                document.querySelectorAll('.tab-item').forEach(t => t.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                tab.classList.add('active');
+                document.getElementById('tab-' + tab.dataset.tab).classList.add('active');
+            });
         });
 
         // 词云点击触发搜索
